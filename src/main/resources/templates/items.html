@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <style>
+        .bott {
+            text-align: left;
+        }
+
+        .table thead th {
+            vertical-align: top;
+        }
+
+        .navbar-dark .navbar-toggler {
+            border-color: rgba(3, 122, 250, 0.99);
+        }
+
+        .navbar-toggler-icon {
+            display: none;
+        }
+
+        .col {
+            color: rgba(18, 140, 10, 0.99);
+        }
+    </style>
+    <title>Todo List</title>
+</head>
+<body style=" background: rgba(16, 196, 239, 0.77);">
+<nav class="navbar navbar-dark bg-primary">
+    <a class="navbar-brand" th:href="@{/items}">Todo List<span
+            class="sr-only">(current)</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+<div class="container pt-3">
+    <div class="box">
+        <table class="table">
+            <thead>
+            <tr style="font-size: large">
+                <th style="border: 0" scope="col">#</th>
+                <th style="border: 0" scope="col">Name</th>
+                <th style="border: 0" scope="col">Date of creation</th>
+                <th style="border: 0" scope="col">Status
+                    <label>
+                        <select onchange="location.href=/formItemCondition/+this.value">
+                            <option th:each="choos : ${chooses}"
+                                    th:value="${choos}"
+                                    th:text="${choos}"
+                                    th:if="${choos == selectedId}"
+                                    selected="true">
+                            </option>
+                            <option th:each="choos : ${chooses}"
+                                    th:if="${choos != selectedId || selectedId == null}"
+                                    th:value="${choos}"
+                                    th:text="${choos}">
+                            </option>
+                        </select>
+                    </label>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <div class="bott">
+                <a th:href="@{/formAddItem}">
+                    <button class="btn btn-success">Add task</button>
+                </a>
+            </div>
+            <tr th:each="item,itr: ${items}" style="font-size: large">
+                <td th:text="${itr.index+1}" style="border: 0"></td>
+                <td style="border: 0"><a class="col" th:href="@{|/formItemId/${item.id}|}">
+                    <i th:href="@{/item.name}" th:text="${item.name}"></i>
+                </a></td>
+                <td style="border: 0" th:text="${#temporals.format(item.created, 'dd-MM-yyyy HH:mm')}"></td>
+                <td style="border: 0" th:if="${item.done == true}">Done</td>
+                <td style="border: 0" th:if="${item.done != true}">New</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background: rgba(74, 80, 94, 0.96);
+        }
+    </style>
+
+    <title>Todo List</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" th:href="@{/items}">Todo List<span
+            class="sr-only">(current)</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+<div class="container pt-3">
+    <table class="table">
+        <thead>
+        <tr style="color: aliceblue; font-size: large">
+            <th style="border: 0" scope="col">Name</th>
+            <th style="border: 0" scope="col">Description</th>
+            <th style="border: 0" scope="col">Date of creation</th>
+            <th style="border: 0" scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="it: ${item}" style="font-size: large; color: #81d6e8">
+            <div th:if="${it.done != true}" class="bott" style="display: inline-block; margin-right: 20px;">
+                <a th:href="@{|/formExecuteItem/${it.id}|}">
+                    <button class="btn btn-success" style="color: white">Run</button>
+                </a>
+            </div>
+            <div th:if="${it.done != true}"  class="bott" style="display: inline-block; margin-right: 20px;">
+                <a th:href="@{|/formUpdateItem/${it.id}|}">
+                    <button class="btn btn-warning" style="color: white">Edit</button>
+                </a>
+            </div>
+
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                Delete task
+            </button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete task?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+
+                            <div class="del" style="display: inline-block;">
+                                <a th:href="@{|/formDeleteItem/${it.id}|}">
+                                    <button type="button" class="btn btn-primary">Yes</button>
+                                </a>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Not</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <td style="border: 0" th:text="${it.name}"></td>
+            <td style="border: 0" th:text="${it.description}"></td>
+            <td style="border: 0" th:text="${#temporals.format(it.created, 'dd-MM-yyyy HH:mm')}"></td>
+            <td style="border: 0" th:if="${it.done == true}">Done</td>
+            <td style="border: 0" th:if="${it.done != true}">New</td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="text-align: center">
+        <a th:href="@{/items}">
+            <button class="btn btn-primary">Back</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>
