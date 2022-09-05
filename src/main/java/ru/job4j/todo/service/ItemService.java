@@ -2,7 +2,7 @@ package ru.job4j.todo.service;
 
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import ru.job4j.todo.model.FilterOptions;
+import ru.job4j.todo.filter.FilterOptions;
 import ru.job4j.todo.repository.ItemRepository;
 import ru.job4j.todo.model.Item;
 

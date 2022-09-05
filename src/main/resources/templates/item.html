@@ -28,12 +28,26 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" th:href="@{/items}">Todo List<span
+    <a class="navbar-brand" th:href="@{/index}">Todo List<span
             class="sr-only">(current)</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" style="color: white" th:href="@{/items}">Tasks<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" style="color: white"  th:href="@{/registration}">Registration</a>
+                        <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
+                            <span th:text="${user.name}"></span>
+                            <span> | Sign in</span>
+                        </a>
+                        <a class="nav-item nav-link" style="color: white" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
+                            <span th:text="${user.name}"></span>
+                            <span> | Sign out</span>
+                        </a>
+        </div>
+    </div>
 </nav>
 <div class="container pt-3">
     <table class="table">

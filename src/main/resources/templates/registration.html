@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <style>
+        .card-body {
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #e8b30b;
+            border-color: #b79e5e;
+        }
+
+        .card-header {
+            text-align: center;
+        }
+    </style>
+    <title>Todo List</title>
+</head>
+<body style="background: rgb(41,80,152);">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #082d77;">
+        <a class="navbar-brand" th:href="@{/index}">Todo List<span
+                class="sr-only">(current)</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" style="color: white" th:href="@{/items}">Tasks<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/registration}">Registration</a>
+                <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
+                    <span th:text="${user.name}"></span>
+                    <span> | Sign in</span>
+                </a>
+                <a class="nav-item nav-link" style="color: white" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
+                    <span th:text="${user.name}"></span>
+                    <span> | Sign out</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header" style="background: #99c286">
+                Registration
+            </div>
+            <div class="card-body">
+                <div th:if="${fail}" id="my-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    User with this email already exists
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form th:action="@{/registration}" method="POST" style="background: #99c286">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label>Mail</label>
+                        <input type="text" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" class="form-control" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            window.setTimeout(function () {
+                $('#my-alert').alert('close');
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>

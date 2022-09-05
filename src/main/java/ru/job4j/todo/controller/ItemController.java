@@ -3,15 +3,16 @@ package ru.job4j.todo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.todo.model.FilterOptions;
+import ru.job4j.todo.filter.FilterOptions;
 import ru.job4j.todo.model.Item;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.ItemService;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Controller
 public class ItemController {
@@ -28,36 +29,34 @@ public class ItemController {
     }
 
     @GetMapping("/items")
-    public String items(Model model) {
+    public String items(Model model, HttpSession session) {
         model.addAttribute(ITEMS, this.service.findAll(FilterOptions.ALL));
         model.addAttribute("chooses", FILTER);
+        sessions(model, session);
         return ITEMS;
     }
 
-    @GetMapping("/formAddItem")
-    public String addItem(Model model) {
-        model.addAttribute("item", new Item(0, "Fill in the field", "Fill in the field", null, false));
-        return "addItem";
-    }
-
     @PostMapping("/createItem")
-    public String createItem(@ModelAttribute Item item) {
+    public String createItem(@ModelAttribute Item item, Model model, HttpSession session) {
         item.setCreated(LocalDateTime.now());
         this.service.create(item);
-        return PATH;
+        sessions(model, session);
+        return "items";
     }
 
     @GetMapping("/formItemId/{id}")
-    public String searchItem(Model model, @PathVariable Integer id) {
+    public String searchItem(Model model, @PathVariable Integer id, HttpSession session) {
         model.addAttribute("item", this.service.findById(id));
+        sessions(model, session);
         return "item";
     }
 
     @GetMapping("/formItemCondition/{id}")
-    public String sortItemCondition(Model model, @PathVariable String id) {
+    public String sortItemCondition(Model model, @PathVariable String id, HttpSession session) {
         model.addAttribute(ITEMS, this.service.findAll(FilterOptions.valueOf(id.toUpperCase(Locale.ROOT))));
         model.addAttribute("selectedId", id);
         model.addAttribute("chooses", FILTER);
+        sessions(model, session);
         return ITEMS;
     }
 
@@ -68,8 +67,9 @@ public class ItemController {
     }
 
     @GetMapping("/formUpdateItem/{itemId}")
-    public String formUpdateItem(Model model, @PathVariable("itemId") int id) {
+    public String formUpdateItem(Model model, @PathVariable("itemId") int id, HttpSession session) {
         model.addAttribute(ITEMS, this.service.findById(id));
+        sessions(model, session);
         return "updateItem";
     }
 
@@ -85,5 +85,14 @@ public class ItemController {
         res.setDone(true);
         this.service.update(res);
         return PATH;
+    }
+
+    private void sessions(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Guest");
+        }
+        model.addAttribute("user", user);
     }
 }

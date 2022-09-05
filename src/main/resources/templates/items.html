@@ -27,10 +27,6 @@
             vertical-align: top;
         }
 
-        .navbar-dark .navbar-toggler {
-            border-color: rgba(3, 122, 250, 0.99);
-        }
-
         .navbar-toggler-icon {
             display: none;
         }
@@ -38,22 +34,98 @@
         .col {
             color: rgba(18, 140, 10, 0.99);
         }
+
     </style>
     <title>Todo List</title>
 </head>
 <body style=" background: rgba(16, 196, 239, 0.77);">
-<nav class="navbar navbar-dark bg-primary">
-    <a class="navbar-brand" th:href="@{/items}">Todo List<span
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0379f6;">
+    <a class="navbar-brand" th:href="@{/index}">Todo List<span
             class="sr-only">(current)</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" style="color: white" th:href="@{/items}">Tasks<span
+                    class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}"
+               th:href="@{/registration}">Registration</a>
+            <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
+                <span th:text="${user.name}"></span>
+                <span> | Sign in</span>
+            </a>
+            <a class="nav-item nav-link" style="color: white" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
+                <span th:text="${user.name}"></span>
+                <span> | Sign out</span>
+            </a>
+        </div>
+    </div>
 </nav>
+
+
+<div class="main">
+    <br>
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">New Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="data" method="post">
+                        <input type="hidden" name="id" value="0"/>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" name="description" id="description">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="send_candidate()">
+                        Send
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function send_candidate() {
+        let formElement = document.getElementById("data");
+        let data = new FormData(formElement);
+        fetch("/createItem", {
+            method: "POST",
+            body: data
+        }).then(res => {
+                window.location.reload();
+            });
+    }
+</script>
+
+
 <div class="container pt-3">
     <div class="box">
         <table class="table">
             <thead>
+            <div class="bott">
+                <button type="button" class="btn btn-success" style="color: #ffffff; display: inline-block;"
+                        data-toggle="modal"
+                        data-target="#addModal">Add task
+                </button>
+            </div>
             <tr style="font-size: large">
                 <th style="border: 0" scope="col">#</th>
                 <th style="border: 0" scope="col">Name</th>
@@ -78,11 +150,6 @@
             </tr>
             </thead>
             <tbody>
-            <div class="bott">
-                <a th:href="@{/formAddItem}">
-                    <button class="btn btn-success">Add task</button>
-                </a>
-            </div>
             <tr th:each="item,itr: ${items}" style="font-size: large">
                 <td th:text="${itr.index+1}" style="border: 0"></td>
                 <td style="border: 0"><a class="col" th:href="@{|/formItemId/${item.id}|}">

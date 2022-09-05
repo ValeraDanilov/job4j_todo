@@ -17,16 +17,101 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        table {
+            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+            border-collapse: collapse;
+            border-spacing: 5px;
+            background: #d0caca;
+            border-radius: 20px;
+        }
+
+        th {
+            font-size: 22px;
+            font-weight: 300;
+            padding: 12px 10px;
+            color: #070707;
+        }
+
+        td {
+            padding: 10px;
+            color: #111111;
+        }
+
+        .table td, .table th {
+            border-top: 0;
+            vertical-align: middle;
+        }
+
+        .main {
+            text-align: center;
+        }
+
+        .table thead th {
+            border-bottom: 0;
+        }
+    </style>
+
     <title>Todo List</title>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" th:href="@{/items}">Todo List<span
+<body style=" background: rgba(220,146,93,0.77);">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8d4656;">
+    <a class="navbar-brand" th:href="@{/index}">Todo List<span
             class="sr-only">(current)</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" style="color: white" th:href="@{/items}">Tasks<span
+                    class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" style="color: white" th:href="@{/registration}">Registration</a>
+                        <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
+                            <span th:text="${user.name}"></span>
+                            <span> | Sign in</span>
+                        </a>
+                        <a class="nav-item nav-link" style="color: white" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
+                            <span th:text="${user.name}"></span>
+                            <span> | Sign out</span>
+                        </a>
+        </div>
+    </div>
 </nav>
+<div class="container pt-3">
+    <table class="table" style="width: 70%; margin: auto">
+        <tr>
+            <th style="text-align: center" colspan="5">Completed tasks for today</th>
+        </tr>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+        </tr>
+        <tr th:each="item: ${items}">
+            <div th:if="${item.done == true}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.description}"></td>
+            </div>
+        </tr>
+    </table>
+</div>
+<div class="container pt-3">
+    <table class="table" style="width: 70%; margin: auto">
+        <tr>
+            <th style="text-align: center" colspan="5">Added tasks for today</th>
+        </tr>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+
+        </tr>
+        <tr th:each="item: ${items}">
+            <div th:if="${item.done == false}">
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.description}"></td>
+            </div>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

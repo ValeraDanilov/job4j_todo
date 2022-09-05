@@ -62,7 +62,7 @@ public class ItemRepository {
     }
 
     private <T> T factory(Function<Session, T> command) {
-        final Session session = this.sf.openSession();
+        final Session session = sf.openSession();
         final Transaction transaction = session.beginTransaction();
         try {
             T rsl = command.apply(session);

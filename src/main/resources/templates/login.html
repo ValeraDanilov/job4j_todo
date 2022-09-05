@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <!-- Required meta tags -->
@@ -17,11 +17,24 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <style>
+        .card-body {
+            text-align: center;
+        }
 
+        .btn-primary {
+            background-color: #b75e73;
+            border-color: #b75e73;
+        }
+
+        .card-header {
+            text-align: center;
+        }
+    </style>
     <title>Todo List</title>
 </head>
-<body style="background: #4a505e">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body style=" background: rgb(201,136,148);">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #b75e73;">
     <a class="navbar-brand" th:href="@{/index}">Todo List<span
             class="sr-only">(current)</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -31,38 +44,37 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" style="color: white" th:href="@{/items}">Tasks<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" th:if="${user.name == 'Guest'}" style="color: white"  th:href="@{/registration}">Registration</a>
-                        <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
-                            <span th:text="${user.name}"></span>
-                            <span> | Sign in</span>
-                        </a>
-                        <a class="nav-item nav-link" style="color: white" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
-                            <span th:text="${user.name}"></span>
-                            <span> | Sign out</span>
-                        </a>
+            <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/registration}">Registration</a>
+            <a class="nav-item nav-link" style="color: white" th:if="${user.name == 'Guest'}" th:href="@{/loginPage}">
+                <span th:text="${user.name}"></span>
+                <span> | Sign in</span>
+            </a>
+            <a class="nav-item nav-link" style="color: white" th:if="${user.name != 'Guest'}" th:href="@{/logout}">
+                <span th:text="${user.name}"></span>
+                <span> | Sign out</span>
+            </a>
         </div>
     </div>
 </nav>
-<div class="container pt-3" style="text-align: center">
+<div class="container pt-3">
     <div class="card" style="width: 100%">
-        <div class="card-header" style="background: #868686">
-            Editing a task.
+        <div class="card-header"style="background: #cca9b2">
+            Authorization
         </div>
-        <div class="card-body" style="background: #9a9a9a">
-            <form th:action="@{/updateItem}" method="POST" th:object="${items}" style="background: #bdb9b9">
-                <input type="hidden" name="id" th:field="*{id}"/>
+        <div class="card-body">
+            <div th:if="${fail}" class="alert alert-danger" role="alert">
+                Username or password entered incorrectly!
+            </div>
+            <form th:action="@{/login}" method="POST" style="background: #cca9b2">
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
+                    <label>Mail</label>
+                    <input type="text" class="form-control" name="email">
                 </div>
                 <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" class="form-control" name="description" id="description"
-                           th:field="*{description}">
+                    <label>Password</label>
+                    <input type="text" class="form-control" name="password">
                 </div>
-                <div style="text-align: center">
-                    <button type="submit" class="btn btn-info">Save</button>
-                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
             </form>
         </div>
     </div>
