@@ -7,25 +7,30 @@ import ru.job4j.todo.filter.FilterOptions;
 import ru.job4j.todo.model.Item;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.ItemService;
+import ru.job4j.todo.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 public class ItemController {
 
     private final ItemService service;
+    private final UserService userService;
     private static final List<String> FILTER = Arrays.stream(FilterOptions.values())
             .map(FilterOptions::getValue)
             .toList();
+    private final AtomicInteger userId = new AtomicInteger();
     private static final String PATH = "redirect:/items";
     private static final String ITEMS = "items";
 
-    public ItemController(ItemService service) {
+    public ItemController(ItemService service, UserService userService) {
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping("/items")
@@ -39,6 +44,7 @@ public class ItemController {
     @PostMapping("/createItem")
     public String createItem(@ModelAttribute Item item, Model model, HttpSession session) {
         item.setCreated(LocalDateTime.now());
+        item.setUser(this.userService.findById(this.userId.get()));
         this.service.create(item);
         sessions(model, session);
         return "items";
@@ -94,5 +100,6 @@ public class ItemController {
             user.setName("Guest");
         }
         model.addAttribute("user", user);
+        this.userId.set(user.getId());
     }
 }

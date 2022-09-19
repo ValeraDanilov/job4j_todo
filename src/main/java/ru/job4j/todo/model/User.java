@@ -3,7 +3,6 @@ package ru.job4j.todo.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name = "todo_user")

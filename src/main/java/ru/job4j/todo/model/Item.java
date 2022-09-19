@@ -10,13 +10,17 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @ManyToOne
+    @JoinColumn(name = "user_item")
+    private User user;
     private String name;
     private String description;
     private LocalDateTime created;
     private boolean done;
 
-    public Item(int id, String name, String description, LocalDateTime created, boolean done) {
+    public Item(int id, User user, String name, String description, LocalDateTime created, boolean done) {
         this.id = id;
+        this.user = user;
         this.name = name;
         this.description = description;
         this.created = created;
@@ -32,6 +36,14 @@ public class Item {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
@@ -81,16 +93,5 @@ public class Item {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", created=" + created +
-                ", done=" + done +
-                '}';
     }
 }

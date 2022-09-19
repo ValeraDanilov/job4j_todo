@@ -128,6 +128,7 @@
             </div>
             <tr style="font-size: large">
                 <th style="border: 0" scope="col">#</th>
+                <th style="border: 0" scope="col">User name</th>
                 <th style="border: 0" scope="col">Name</th>
                 <th style="border: 0" scope="col">Date of creation</th>
                 <th style="border: 0" scope="col">Status
@@ -150,8 +151,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item,itr: ${items}" style="font-size: large">
+            <tr th:each="item,itr: ${items}" style="font-size: large" th:if="${user.name == item.user.getName()}">
                 <td th:text="${itr.index+1}" style="border: 0"></td>
+                <td th:text="${item.user.getName()}" style="border: 0"></td>
                 <td style="border: 0"><a class="col" th:href="@{|/formItemId/${item.id}|}">
                     <i th:href="@{/item.name}" th:text="${item.name}"></i>
                 </a></td>

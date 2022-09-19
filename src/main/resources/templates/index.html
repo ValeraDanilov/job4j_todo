@@ -84,11 +84,13 @@
             <th style="text-align: center" colspan="5">Completed tasks for today</th>
         </tr>
         <tr>
+            <th scope="col">User name</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
         </tr>
-        <tr th:each="item: ${items}">
+        <tr th:each="item: ${items}" th:if="${user.name == item.user.getName()}">
             <div th:if="${item.done == true}">
+            <td th:text="${item.user.getName()}"></td>
             <td th:text="${item.name}"></td>
             <td th:text="${item.description}"></td>
             </div>
@@ -101,12 +103,14 @@
             <th style="text-align: center" colspan="5">Added tasks for today</th>
         </tr>
         <tr>
+            <th scope="col">User name</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
 
         </tr>
-        <tr th:each="item: ${items}">
+        <tr th:each="item: ${items}" th:if="${user.name == item.user.getName()}">
             <div th:if="${item.done == false}">
+                <td th:text="${item.user.getName()}"></td>
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.description}"></td>
             </div>
