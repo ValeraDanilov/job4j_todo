@@ -10,8 +10,8 @@ create table if not exists item
 create table todo_user
 (
     id       serial primary key,
-    name     varchar(250),
-    email    varchar(250),
+    name     varchar,
+    email    varchar,
     password text
 );
 

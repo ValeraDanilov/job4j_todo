@@ -58,7 +58,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpServletRequest req) {
-        User userDb = this.userService.findUserByEmailAndPwd(
+        User userDb = this.userService.findUserByEmailAndPassword(
                 user.getEmail(), user.getPassword());
         if (userDb == null) {
             return "redirect:/loginPage?fail=true";

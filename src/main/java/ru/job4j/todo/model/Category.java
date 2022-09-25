@@ -1,25 +1,28 @@
 package ru.job4j.todo.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "todo_user")
-public class User {
+@Table(name = "category")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private Integer id;
+
     private String name;
-    private String email;
-    private String password;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

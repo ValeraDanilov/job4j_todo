@@ -8,6 +8,7 @@ import ru.job4j.todo.model.Item;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,17 +25,13 @@ public class ItemService {
         this.item.create(item);
     }
 
-    public List<Item> findAll(FilterOptions filter) {
-        List<Item> res = item.findAll();
-        return switch (filter) {
-            case NEW -> res.stream()
-                    .filter(item -> !item.isDone())
-                    .collect(Collectors.toList());
-            case DONE -> res.stream()
-                    .filter(Item::isDone)
-                    .collect(Collectors.toList());
-            default -> res;
+    public List<Item> findAllByFilter(FilterOptions filter) {
+        Predicate<Item> condition = switch (filter) {
+            case NEW -> item -> !item.isDone();
+            case DONE -> Item::isDone;
+            default -> item -> true;
         };
+        return this.item.findAll().stream().filter(condition).distinct().toList();
     }
 
     public Item findById(int id) {
@@ -42,16 +39,10 @@ public class ItemService {
     }
 
     public void update(Item item) {
-        if (this.item.findById(item.getId()) == null) {
-            throw new NoSuchElementException("Invalid item id ");
-        }
         this.item.update(item);
     }
 
     public void delete(int id) {
-        if (this.item.findById(id) == null) {
-            throw new NoSuchElementException("Invalid item id ");
-        }
         this.item.delete(id);
     }
 }

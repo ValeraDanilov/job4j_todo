@@ -21,7 +21,7 @@ public class IndexController {
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
-        model.addAttribute("items", this.itemService.findAll(FilterOptions.ALL)
+        model.addAttribute("items", this.itemService.findAllByFilter(FilterOptions.ALL)
                 .stream()
                 .filter(post -> date(post.getCreated()))
                 .toList());

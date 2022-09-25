@@ -64,7 +64,6 @@
     </div>
 </nav>
 
-
 <div class="main">
     <br>
 
@@ -88,6 +87,13 @@
                         <div class="form-group">
                             <label for="description">Description</label>
                             <input type="text" class="form-control" name="description" id="description">
+                        </div>
+                        <div class="form-group">
+                            <label for="category.id">Category</label>
+                            <select class="form-control" id="category.id" name="category.id" multiple="multiple" size="4" required>
+                                <option th:each="category : ${category}" th:value="${category.id}"
+                                        th:text="${category.name}"></option>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -128,8 +134,8 @@
             </div>
             <tr style="font-size: large">
                 <th style="border: 0" scope="col">#</th>
-                <th style="border: 0" scope="col">User name</th>
                 <th style="border: 0" scope="col">Name</th>
+                <th style="border: 0" scope="col">Category</th>
                 <th style="border: 0" scope="col">Date of creation</th>
                 <th style="border: 0" scope="col">Status
                     <label>
@@ -153,10 +159,13 @@
             <tbody>
             <tr th:each="item,itr: ${items}" style="font-size: large" th:if="${user.name == item.user.getName()}">
                 <td th:text="${itr.index+1}" style="border: 0"></td>
-                <td th:text="${item.user.getName()}" style="border: 0"></td>
                 <td style="border: 0"><a class="col" th:href="@{|/formItemId/${item.id}|}">
                     <i th:href="@{/item.name}" th:text="${item.name}"></i>
                 </a></td>
+                <td style="border: 0">
+                       <span th:each="category,iter : ${item.getCategory()}"
+                             th:text="${category.name} + ${!iter.last ? ', ' : ''}"></span>
+                </td>
                 <td style="border: 0" th:text="${#temporals.format(item.created, 'dd-MM-yyyy HH:mm')}"></td>
                 <td style="border: 0" th:if="${item.done == true}">Done</td>
                 <td style="border: 0" th:if="${item.done != true}">New</td>

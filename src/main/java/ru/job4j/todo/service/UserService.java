@@ -22,15 +22,11 @@ public class UserService {
         return this.users.create(user);
     }
 
-    public List<User> findAll() {
-        return this.users.findAll();
-    }
-
     public User findById(int id) {
         return this.users.findById(id);
     }
 
-    public User findUserByEmailAndPwd(String email, String password) {
-        return this.users.findUserByEmailAndPwd(email, password);
+    public User findUserByEmailAndPassword(String email, String password) {
+        return this.users.findUserByEmailAndPassword(email, password);
     }
 }
