@@ -35,4 +35,8 @@ public class Item {
             inverseJoinColumns = {@JoinColumn(name = "category_id")}
     )
     private Set<Category> category = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "priority_id")
+    private Priority priority;
 }

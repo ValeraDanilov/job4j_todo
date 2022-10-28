@@ -10,8 +10,8 @@ import java.util.NoSuchElementException;
 
 @Repository
 public class ItemRepository {
-    private static final String SELECT_ALL_QUERY = "from Item  item join fetch item.category";
-    private static final String SELECT_BY_ID_QUERY = "from Item  item join fetch item.category"
+    private static final String SELECT_ALL_QUERY = "from Item  item join fetch item.category join fetch item.priority";
+    private static final String SELECT_BY_ID_QUERY = "from Item  item join fetch item.category join fetch item.priority"
             + " where item.id = :Id";
     private final SessionFactory factory;
 

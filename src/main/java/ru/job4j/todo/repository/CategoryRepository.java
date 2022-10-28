@@ -25,9 +25,9 @@ public class CategoryRepository {
     }
 
     public Category findById(int id) {
-        return (Category) SessionWrapper.wrap(
+        return SessionWrapper.wrap(
                 session ->
-                        session.createQuery(SELECT_BY_ID_QUERY)
+                        session.createQuery(SELECT_BY_ID_QUERY, Category.class)
                                 .setParameter("Id", id)
                                 .getSingleResult(), factory);
     }

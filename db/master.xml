@@ -7,6 +7,9 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <include file="scripts/001_ddl_create_item_and_user.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002_ddl_add_column_user_item_in_item.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_ddl_create_priority.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_dml_create_priority.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_create_category.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/004_dml_fill_category_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_create_item_category.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

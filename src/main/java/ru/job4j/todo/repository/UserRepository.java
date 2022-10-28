@@ -42,6 +42,6 @@ public class UserRepository {
                         session.createQuery(SELECT_BY_EMAIL_AND_PASSWORD_QUERY)
                                 .setParameter("Email", email)
                                 .setParameter("Password", password)
-                                .getResultList(), factory);
+                                .getSingleResult(), factory);
     }
 }

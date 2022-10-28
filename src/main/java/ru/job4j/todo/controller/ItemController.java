@@ -9,6 +9,7 @@ import ru.job4j.todo.model.Item;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.ItemService;
+import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -22,17 +23,22 @@ public class ItemController {
     private final ItemService service;
     private final UserService userService;
     private final CategoryService categoryService;
+    private final PriorityService priorityService;
     private static final List<String> FILTER = Arrays.stream(FilterOptions.values())
             .map(FilterOptions::getValue)
             .toList();
     private final AtomicInteger userId = new AtomicInteger();
     private static final String PATH = "redirect:/items";
     private static final String ITEMS = "items";
+    private static final String CATEGORY = "category";
+    private static final String PRIORITY = "priority";
+    private static final String CHOOSES = "chooses";
 
-    public ItemController(ItemService service, UserService userService, CategoryService categoryService) {
+    public ItemController(ItemService service, UserService userService, CategoryService categoryService, PriorityService priorityService) {
         this.service = service;
         this.userService = userService;
         this.categoryService = categoryService;
+        this.priorityService = priorityService;
     }
 
     @GetMapping("/items")
@@ -40,6 +46,10 @@ public class ItemController {
         model.addAttribute(ITEMS, this.service.findAllByFilter(FilterOptions.ALL));
         model.addAttribute("chooses", FILTER);
         model.addAttribute("category", this.categoryService.findAll());
+        model.addAttribute(ITEMS, this.service.findAllByFilter(FilterOptions.ALL));
+        model.addAttribute(CHOOSES, FILTER);
+        model.addAttribute(CATEGORY, this.categoryService.findAll());
+        model.addAttribute(PRIORITY, this.priorityService.findAll());
         sessions(model, session);
         return ITEMS;
     }
@@ -71,7 +81,7 @@ public class ItemController {
     public String sortItemCondition(Model model, @PathVariable String id, HttpSession session) {
         model.addAttribute(ITEMS, this.service.findAllByFilter(FilterOptions.valueOf(id.toUpperCase(Locale.ROOT))));
         model.addAttribute("selectedId", id);
-        model.addAttribute("chooses", FILTER);
+        model.addAttribute(CHOOSES, FILTER);
         sessions(model, session);
         return ITEMS;
     }
@@ -85,7 +95,8 @@ public class ItemController {
     @GetMapping("/formUpdateItem/{itemId}")
     public String formUpdateItem(Model model, @PathVariable("itemId") int id, HttpSession session) {
         model.addAttribute(ITEMS, this.service.findById(id));
-        model.addAttribute("category", this.categoryService.findAll());
+        model.addAttribute(CATEGORY, this.categoryService.findAll());
+        model.addAttribute(PRIORITY, this.priorityService.findAll());
         sessions(model, session);
         return "updateItem";
     }
