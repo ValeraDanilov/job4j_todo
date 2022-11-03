@@ -12,4 +12,6 @@
     <include file="scripts/004_create_category.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_dml_fill_category_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_create_item_category.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_ddl_replace_colum_created_in_item.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddl_add_column_zone_in_todo_user.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

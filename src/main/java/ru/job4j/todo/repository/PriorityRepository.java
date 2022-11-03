@@ -12,7 +12,6 @@ import java.util.List;
 public class PriorityRepository {
 
     private static final String SELECT_ALL_QUERY = "from Priority i order by i.id";
-    private static final String SELECT_BY_ID_QUERY = "from Priority i where i.id = :Id";
     private final SessionFactory factory;
 
     public PriorityRepository(SessionFactory factory) {

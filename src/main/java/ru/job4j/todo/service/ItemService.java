@@ -21,8 +21,8 @@ public class ItemService {
         this.item = item;
     }
 
-    public void create(Item item) {
-        this.item.create(item);
+    public void create(Item item, String timeZone) {
+        this.item.create(item, timeZone);
     }
 
     public List<Item> findAllByFilter(FilterOptions filter) {

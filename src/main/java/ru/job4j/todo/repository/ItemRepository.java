@@ -1,12 +1,16 @@
 package ru.job4j.todo.repository;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Item;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.util.SessionWrapper;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.TimeZone;
 
 @Repository
 public class ItemRepository {
@@ -19,9 +23,15 @@ public class ItemRepository {
         this.factory = factory;
     }
 
-    public void create(Item item) {
-        SessionWrapper.wrap(session ->
-                session.save(item), factory);
+    public void create(Item item, String timeZone) {
+        try {
+            SessionWrapper.zoneWrap(
+                    session -> session.save(item),
+                    factory, timeZone
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Item> findAll() {

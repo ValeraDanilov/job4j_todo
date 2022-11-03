@@ -26,7 +26,7 @@ public class Item {
     private User user;
     private String name;
     private String description;
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
     private boolean done;
     @ManyToMany
     @JoinTable(

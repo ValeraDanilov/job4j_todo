@@ -3,16 +3,15 @@ package ru.job4j.todo.controller;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.TimeZone;
 
 @Controller
 @ThreadSafe
@@ -27,7 +26,12 @@ public class UserController {
 
     @GetMapping("/registration")
     public String addUser(Model model, HttpSession session) {
-        model.addAttribute("newUser", new User(0, VALUE, VALUE, VALUE));
+        var zones = new ArrayList<TimeZone>();
+        for (String timeId : TimeZone.getAvailableIDs()) {
+            zones.add(TimeZone.getTimeZone(timeId));
+        }
+        model.addAttribute("newUser", new User(0, VALUE, VALUE, VALUE, VALUE));
+        model.addAttribute("timeZone", zones.stream().map(TimeZone::getID).toList());
         sessions(model, session);
         return "registration";
     }

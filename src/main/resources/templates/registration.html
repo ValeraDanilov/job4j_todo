@@ -70,16 +70,25 @@
                 </div>
                 <form th:action="@{/registration}" method="POST" style="background: #99c286">
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name">
                     </div>
                     <div class="form-group">
-                        <label>Mail</label>
-                        <input type="text" class="form-control" name="email">
+                        <label for="email">Mail</label>
+                        <input type="text" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">
-                        <label>Password</label>
-                        <input type="text" class="form-control" name="password">
+                        <label for="password">Password</label>
+                        <input type="text" class="form-control" name="password" id="password">
+                    </div>
+                    <div class="form-group">
+                        <label>TimeZone</label>
+                        <label>
+                            <select class="form-control"  name="zone" required>
+                                <option th:each="zone : ${timeZone}" th:value="${zone}"
+                                        th:text="${zone}"></option>
+                            </select>
+                        </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Apply</button>
                 </form>

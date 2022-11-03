@@ -20,9 +20,8 @@ public class UserRepository {
 
     public Optional<User> create(User user) {
         try {
-            User finalUser = (User) SessionWrapper.wrap(session ->
-                    session.save(user), factory);
-            return Optional.of(finalUser);
+            SessionWrapper.zoneWrap(session -> session.save(user), factory, user.getZone());
+            return Optional.of(user);
         } catch (Exception e) {
             return Optional.empty();
         }
